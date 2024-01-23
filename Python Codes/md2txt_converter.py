@@ -13,11 +13,17 @@ def find_md_files(directory):
 # Function to convert .md file to .txt file with transformations
 def convert_md_to_txt(input_md, output_txt):
     with open(input_md, 'r', encoding='utf-8') as infile:
-        content = infile.read()
-        content = re.sub(r'\[([^\]]+)\]\(([^)]+)\)', r'[[\2|\1]]', content)
-        content = re.sub(r'##\s+(.+)', r'===== \1 =====', content)
-        content = re.sub(r'!\[\[([^\]]+)\]\]', r'"\1"', content)
-        content = re.sub(r'#([^#\s]+)', r'[[\1]]', content)
+        lines = infile.readlines()
+
+    # Apply transformations to the first two lines
+    lines[:2] = [re.sub(r'#([^#\s]+)', r'[[\1]]', line) for line in lines[:2]]
+
+    # Join the lines back together and apply other transformations
+    content = ''.join(lines)
+    content = re.sub(r'\[([^\]]+)\]\(([^)]+)\)', r'[[\2|\1]]', content)
+    content = re.sub(r'##\s+(.+)', r'===== \1 =====', content)
+    content = re.sub(r'!\[\[([^\]]+)\]\]', r'{{:\1|}}', content)
+    content = re.sub(r'^\*\s+(.+)', r'  * \1', content, flags=re.MULTILINE)
 
     with open(output_txt, 'w', encoding='utf-8') as outfile:
         outfile.write(content)
@@ -40,5 +46,3 @@ for md_file in md_files:
     output_txt_path = os.path.join(text_files_directory, url_encoded_name + '.txt')
     convert_md_to_txt(input_md_path, output_txt_path)
     print(f"Converted '{md_file}' to URL-encoded '{output_txt_path}'")
-
-## 추가 작업. 1) 코드 변환 #AA -> [[AA]] 은 http와 중복이 생김. 이부분 배제필요. 2) * 순차없는 목록 "* AA" 를 "  * AA"로 변환 필요.

@@ -1,0 +1,45 @@
+import csv
+import os
+
+def read_csv_file(csv_file_path):
+    with open(csv_file_path, 'r', encoding='utf-8') as csv_file:
+        csv_reader = csv.reader(csv_file)
+        return list(csv_reader)
+    
+def read_txt_files(folder_path):
+    txt_files_contents = {}
+    for filename in os.listdir(folder_path):
+        if filename.endswith('.txt'):
+            file_path = os.path.join(folder_path, filename)
+            with open(file_path, 'r', encoding='utf-8') as file:
+                txt_files_contents[filename] = file.read()
+    return txt_files_contents
+
+def process_txt_files(txt_files, csv_rows):
+    for row in csv_rows:
+        original_filename = row[1].lower()  # Convert filename to lowercase
+        new_filename = row[3].lower()       # Convert new filename to lowercase
+
+        for txt_file in txt_files:
+            if original_filename in txt_files[txt_file].lower():  # Search in lowercase
+                txt_files[txt_file] = txt_files[txt_file].replace(original_filename, new_filename)
+                
+def write_txt_files(folder_path, txt_files):
+    for filename, content in txt_files.items():
+        file_path = os.path.join(folder_path, filename)
+        with open(file_path, 'w', encoding='utf-8') as file:
+            file.write(content)
+
+# Paths
+csv_file_path = 'C:/Work/RGL_Local/옵시디언_resource_File_list.csv'  # Replace with your CSV file path
+folder_path = 'C:/Work/RGL_Local/md files/text_files'  # Replace with your folder path
+
+# Read CSV and TXT files
+csv_rows = read_csv_file(csv_file_path)
+txt_files = read_txt_files(folder_path)
+
+# Process TXT files based on CSV data
+process_txt_files(txt_files, csv_rows)
+
+# Write updated TXT files back to the folder
+write_txt_files(folder_path, txt_files)
