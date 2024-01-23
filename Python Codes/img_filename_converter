@@ -1,6 +1,11 @@
 import csv
 import os
 
+"""
+    This code read image data management .csv file and refer to the image's original filenames on the .csv
+    and replace it with renamed image filename on all converted .txt file. Therefore providing the correct link for DocuWiki upload txt file.
+    
+"""
 def read_csv_file(csv_file_path):
     with open(csv_file_path, 'r', encoding='utf-8') as csv_file:
         csv_reader = csv.reader(csv_file)
@@ -17,11 +22,11 @@ def read_txt_files(folder_path):
 
 def process_txt_files(txt_files, csv_rows):
     for row in csv_rows:
-        original_filename = row[1].lower()  # Convert filename to lowercase
-        new_filename = row[3].lower()       # Convert new filename to lowercase
+        original_filename = row[1]  # Convert filename to lowercase
+        new_filename = row[3]       # Convert new filename to lowercase
 
         for txt_file in txt_files:
-            if original_filename in txt_files[txt_file].lower():  # Search in lowercase
+            if original_filename in txt_files[txt_file]:  # Search in lowercase
                 txt_files[txt_file] = txt_files[txt_file].replace(original_filename, new_filename)
                 
 def write_txt_files(folder_path, txt_files):
@@ -31,7 +36,7 @@ def write_txt_files(folder_path, txt_files):
             file.write(content)
 
 # Paths
-csv_file_path = 'C:/Work/RGL_Local/옵시디언_resource_File_list.csv'  # Replace with your CSV file path
+csv_file_path = 'C:/Work/RGL_Local/imagefile/옵시디언_resource_File_list.csv'  # Replace with your CSV file path
 folder_path = 'C:/Work/RGL_Local/md files/text_files'  # Replace with your folder path
 
 # Read CSV and TXT files
