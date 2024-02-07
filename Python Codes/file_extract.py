@@ -6,7 +6,7 @@ File list extraction to a text file.
 Program: file_extract.py
 Author: "Ji Yong Hwang"
 Description 
-An simple extraction of file names of a particular dicrectory onto a designated text file. 
+An simple extraction of file names of a specified dicrectory onto a designated text file. 
 
 Date: January 22nd, 2024
 """
@@ -48,6 +48,3 @@ output_file_path = "C://Work/RGL_Local//file.txt"  # Replace with your output fi
 files = list_files_in_directory(directory_path)
 export_to_file(files, output_file_path)
 print(f"Files have been exported to {output_file_path}")
-
-
-

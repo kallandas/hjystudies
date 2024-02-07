@@ -20,10 +20,12 @@ def convert_md_to_txt(input_md, output_txt):
 
     # Join the lines back together and apply other transformations
     content = ''.join(lines)
-    content = re.sub(r'\[([^\]]+)\]\(([^)]+)\)', r'[[\2|\1]]', content)
+    content = re.sub(r'\[([^\]]+)\]\(([^)]+)\)', r'[[\2|\1]]', content) #convert outer link
+    content = re.sub(r'###\s+(.+)', r'==== \1 ====', content)   #convert header level by level
     content = re.sub(r'##\s+(.+)', r'===== \1 =====', content)
-    content = re.sub(r'!\[\[([^\]]+)\]\]', r'{{:\1|}}', content)
-    content = re.sub(r'^\*\s+(.+)', r'  * \1', content, flags=re.MULTILINE)
+    content = re.sub(r'#\s+(.+)', r'====== \1 ======', content)
+    content = re.sub(r'!\[\[([^\]]+)\]\]', r'{{:\1|}}', content)  #convert image link
+    content = re.sub(r'^\*\s+(.+)', r'  * \1', content, flags=re.MULTILINE)  #convert ?
 
     with open(output_txt, 'w', encoding='utf-8') as outfile:
         outfile.write(content)
