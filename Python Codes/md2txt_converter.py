@@ -20,6 +20,8 @@ def convert_md_to_txt(input_md, output_txt):
 
     # Join the lines back together and apply other transformations
     content = ''.join(lines)
+    content = re.sub(r'\!\[([^\]]+)\]\(([^)]+)\)', r'{{\2|\1}}', content) #convert image outer link
+    content = re.sub(r'\!\[\[([^\]]+)\]\]', r'{{:\1|\1}}', content) #convert image outer link
     content = re.sub(r'\[([^\]]+)\]\(([^)]+)\)', r'[[\2|\1]]', content) #convert outer link
     content = re.sub(r'###\s+(.+)', r'==== \1 ====', content)   #convert header level by level
     content = re.sub(r'##\s+(.+)', r'===== \1 =====', content)
@@ -31,7 +33,7 @@ def convert_md_to_txt(input_md, output_txt):
         outfile.write(content)
 
 # Directory containing .md files
-directory_path = "C:\Work\RGL_Local\md files"  # Replace with your directory path
+directory_path = "C:/Users/kalla/Desktop/RGL/md files"   # Replace with your directory path
 
 # Ensure the 'text_files' subfolder exists
 text_files_directory = os.path.join(directory_path, "text_files")
