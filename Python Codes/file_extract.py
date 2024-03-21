@@ -42,8 +42,8 @@ def export_to_file(files_list, output_file):
             file.write(f"{filename}\n")
 
 # Example usage
-directory_path = "C://Users/USER/내 드라이브(ragnarokdarkuniverse@gmail.com)/라그옵시디안/라그라로크다크/resources"  # Replace with your directory path
-output_file_path = "C://Work/RGL_Local//file.txt"  # Replace with your output file path
+directory_path = "C://Users/kalla/Desktop/RGL/imagefile/preconvert"  # Replace with your directory path
+output_file_path = "C://Users/kalla/Desktop/RGL/file.txt"  # Replace with your output file path
 
 files = list_files_in_directory(directory_path)
 export_to_file(files, output_file_path)
